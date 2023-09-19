@@ -1,8 +1,10 @@
-const server = Bun.serve({
-  port: 3000,
-  fetch(req) {
-    return new Response("Bun!");
-  },
-});
+import { Hono } from "hono";
+import task from "./api/task.api";
 
-console.log(`Listening on http://localhost:${server.port} ...`);
+const app: Hono = new Hono().basePath("/api");
+
+app.get("/", async (context, next) => context.text("Hello Bun!"));
+
+app.route("/task", task);
+
+export default app;
